@@ -12,12 +12,18 @@ import flixel.util.FlxMath;
  */
 class PlayState extends FlxState
 {
-	/**
-	 * Function that is called up when to state is created to set it up. 
-	 */
+	private var _lander:Ship;
+	
 	override public function create():Void
 	{
-		add(new FlxText(FlxG.width / 3, FlxG.height / 2, 200, "Use A & D to rotate and W for thrust", 10));
+		add(new FlxText(FlxG.width/4, FlxG.height - 20, 550, "W, up for thrust; A, D or right, left to rotate", 12));
+		
+		//create the lander
+		_lander = new Ship(FlxG.width/2 -32, 25);
+		add(_lander);
+		
+		
+		
 		super.create();
 	}
 	
