@@ -22,7 +22,12 @@ class Ship extends FlxSprite
 		loadGraphic("assets/images/ship.png", true, 32, 32);
 		
 		// set starting orientation of ship to random angle
-		angle = FlxRandom.floatRanged( -180, 180);
+		angle = FlxRandom.floatRanged( -110, -70);
+		
+		maxVelocity.set(150, 150);
+		acceleration.y = 25;
+		velocity.set( 0, 0);
+		
 		
 	}
 	
@@ -33,26 +38,27 @@ class Ship extends FlxSprite
 		
 		if (FlxG.keys.anyPressed(["A", "LEFT"]))
 		{
-			angularVelocity -= 240;
+			angularVelocity -= 40;
 		}
 
 		if (FlxG.keys.anyPressed(["D", "RIGHT"]))
 		{
-			angularVelocity += 240;
+			angularVelocity += 40;
 		}
+		
+		acceleration.set(0, 25);
 		
 		if (FlxG.keys.anyPressed(["W", "UP"]))
 		{
 			//show sprite with thrust graphic
 			animation.frameIndex = 1;
 			
-			//FlxAngle.rotatePoint(90, 0, 0, 0, angle, acceleration);
+			FlxAngle.rotatePoint(18, 0, 0, 0, angle, acceleration);
+			
 		}
-
-		acceleration.set();
 		
 		FlxSpriteUtil.screenWrap(this);
-
+		
 		super.update();
 	}
 }

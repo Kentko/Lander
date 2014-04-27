@@ -41,6 +41,12 @@ class PlayState extends FlxState
 	 */
 	override public function update():Void
 	{
+		if (FlxG.keys.anyPressed(["ESCAPE"]))
+		{
+			FlxG.switchState(new MenuState());
+		}
+		
+		
 		super.update();
 	}	
 }
