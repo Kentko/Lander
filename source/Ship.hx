@@ -2,7 +2,9 @@ package ;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.text.FlxText;
 import flixel.util.FlxAngle;
+import flixel.util.FlxColor;
 import flixel.util.FlxMath;
 import flixel.util.FlxRandom;
 import flixel.util.FlxSpriteUtil;
@@ -12,22 +14,23 @@ import flixel.util.FlxSpriteUtil;
  * @author Kentko
  */
 class Ship extends FlxSprite
-{
-	private var _thrust:Float = 0;
-
+{	
+	public var fuel:Int;
+	
 	public function new(X:Float, Y:Float) 
 	{
 		super(X, Y);
 		
 		loadGraphic("assets/images/ship.png", true, 32, 32);
 		
-		// set starting orientation of ship to random angle
+		// set starting orientation of ship to a random almost vertical angle
 		angle = FlxRandom.floatRanged( -110, -70);
 		
 		maxVelocity.set(150, 150);
 		acceleration.y = 25;
 		velocity.set( 0, 0);
 		
+		fuel = 1000;
 		
 	}
 	
@@ -48,13 +51,13 @@ class Ship extends FlxSprite
 		
 		acceleration.set(0, 25);
 		
-		if (FlxG.keys.anyPressed(["W", "UP"]))
-		{
+		if (FlxG.keys.anyPressed(["W", "UP"]) && (fuel > 0))
+		{	
+			fuel -= 1;
 			//show sprite with thrust graphic
 			animation.frameIndex = 1;
 			
-			FlxAngle.rotatePoint(18, 0, 0, 0, angle, acceleration);
-			
+			FlxAngle.rotatePoint(18, 0, 0, 0, angle, acceleration);		
 		}
 		
 		FlxSpriteUtil.screenWrap(this);
