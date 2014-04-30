@@ -4,6 +4,9 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.text.FlxText;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
+import flixel.tweens.misc.NumTween;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
 import flixel.util.FlxMath;
@@ -18,6 +21,8 @@ class PlayState extends FlxState
 	private var _showVelocity:FlxText;
 	private var _showAcceleration:FlxText;
 	private var _showFuel:FlxText;
+	
+	private var _alphaTweener:NumTween;
 	
 	override public function create():Void
 	{
@@ -39,6 +44,8 @@ class PlayState extends FlxState
 		_showFuel = new FlxText(2, 38, 175, "Fuel: " + _lander.fuel);
 		_showFuel.setFormat(null, 12, FlxColor.WHITE, "left", FlxText.BORDER_NONE, FlxColor.BLACK);
 		add(_showFuel);
+		
+		_alphaTweener = FlxTween.num(1.0, 0.5, .5, { ease: FlxEase.sineInOut, type: FlxTween.PINGPONG });
 		
 		
 		super.create();
@@ -67,6 +74,13 @@ class PlayState extends FlxState
 		_showVelocity.text = "Velocity: " + Math.floor(_lander.velocity.x) +", " + Math.floor(_lander.velocity.y);
 		_showFuel.text = "Fuel: " + _lander.fuel;
 		
+		// Make fuel text red and tween the alpha so it flashes to alert player to low fuel
+		if (_lander.fuel < 250)
+		{
+			_showFuel.color = 0xFFFF6262;
+			_showFuel.alpha = _alphaTweener.value;
+		}
+		
 		super.update();
-	}	
+	}
 }

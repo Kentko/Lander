@@ -57,7 +57,7 @@ class Ship extends FlxSprite
 			//show sprite with thrust graphic
 			animation.frameIndex = 1;
 			
-			FlxAngle.rotatePoint(18, 0, 0, 0, angle, acceleration);		
+			FlxAngle.rotatePoint(18, 0, 0, 0, angle, acceleration);
 		}
 		
 		FlxSpriteUtil.screenWrap(this);
