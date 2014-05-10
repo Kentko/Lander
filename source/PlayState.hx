@@ -97,7 +97,7 @@ class PlayState extends FlxState
 			_showFuel.alpha = _alphaTweener.value;
 		}
 		
-		//super.update();
+		super.update();
 		
 	}
 	
