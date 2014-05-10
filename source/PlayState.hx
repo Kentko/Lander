@@ -1,6 +1,7 @@
 package;
 
 import flixel.FlxG;
+import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.text.FlxText;
@@ -11,6 +12,8 @@ import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
 import flixel.util.FlxMath;
 import flixel.util.FlxPoint;
+import flixel.tile.FlxTilemap;
+import flixel.addons.editors.ogmo.FlxOgmoLoader;
 
 /**
  * A FlxState which can be used for the actual gameplay.
@@ -22,14 +25,24 @@ class PlayState extends FlxState
 	private var _showAcceleration:FlxText;
 	private var _showFuel:FlxText;
 	
+	private var _ogmoData:FlxOgmoLoader;
+	private var _tiles:FlxTilemap;
+	
 	private var _alphaTweener:NumTween;
 	
 	override public function create():Void
 	{
-		add(new FlxText(FlxG.width/4, FlxG.height - 20, 550, "W, up for thrust; A, D or right, left to rotate", 12));
+		//FlxG.camera.bgColor = 0xFF3F3F3F;
+		
+		//Load the ogmo level data into _tiles
+		_ogmoData = new FlxOgmoLoader("assets/data/moon.oel");
+		_tiles = _ogmoData.loadTilemap("assets/images/tiles_.png", 20, 20, "moon");
+		add(_tiles);
+		
+		add(new FlxText(FlxG.width / 4, FlxG.height - 20, 550, "W, up for thrust; A, D or right, left to rotate", 12));
 		
 		//create the lander
-		_lander = new Ship(FlxG.width/2 -32, 25);
+		_lander = new Ship(FlxG.width/2 -8, 25);
 		add(_lander);
 		
 		
@@ -45,8 +58,7 @@ class PlayState extends FlxState
 		_showFuel.setFormat(null, 12, FlxColor.WHITE, "left", FlxText.BORDER_NONE, FlxColor.BLACK);
 		add(_showFuel);
 		
-		_alphaTweener = FlxTween.num(1.0, 0.5, .5, { ease: FlxEase.sineInOut, type: FlxTween.PINGPONG });
-		
+		_alphaTweener = FlxTween.num(1.0, 0.5, .5, { ease: FlxEase.sineInOut, type: FlxTween.PINGPONG });		
 		
 		super.create();
 	}
@@ -65,6 +77,10 @@ class PlayState extends FlxState
 	 */
 	override public function update():Void
 	{
+		FlxG.overlap(_tiles, _lander, landerTouchedTiles);
+		//FlxG.collide(_tiles, _lander);
+		
+		
 		if (FlxG.keys.anyPressed(["ESCAPE"]))
 		{
 			FlxG.switchState(new MenuState());
@@ -81,6 +97,12 @@ class PlayState extends FlxState
 			_showFuel.alpha = _alphaTweener.value;
 		}
 		
-		super.update();
+		//super.update();
+		
+	}
+	
+	public function landerTouchedTiles(Object1:FlxObject, Object2:FlxObject):Void 
+	{
+		trace("Lander touched a tile!");
 	}
 }

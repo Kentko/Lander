@@ -21,14 +21,14 @@ class Ship extends FlxSprite
 	{
 		super(X, Y);
 		
-		loadGraphic("assets/images/ship.png", true, 32, 32);
+		loadGraphic("assets/images/lander_16.png", true, 16, 16);
 		
 		// set starting orientation of ship to a random almost vertical angle
 		angle = FlxRandom.floatRanged( -110, -70);
 		
 		maxVelocity.set(150, 150);
 		acceleration.y = 25;
-		velocity.set( 0, 0);
+		velocity.set( 0, 20);
 		
 		fuel = 1000;
 		
